@@ -1,0 +1,35 @@
+# Logstash
+#
+# VERSION               0.0.1
+
+FROM centos:6.6
+MAINTAINER Cedric DELGEHIER <cedric.delgehier@gmail.com>
+
+WORKDIR /opt
+
+# VARS
+ENV LS_VER=1.4.2
+
+# Update the image
+RUN yum update -y
+
+# Deps
+RUN yum install java-1.7.0-openjdk curl tar -y
+
+
+# Install
+RUN curl -L -O https://download.elastic.co/logstash/logstash/logstash-contrib-${LS_VER}.tar.gz
+RUN tar -xvf logstash-contrib-${LS_VER}.tar.gz && mv logstash-contrib-${LS_VER} logstash
+
+# Plugins
+#/opt/logstash/bin/plugin install logstash-input-log-courier
+
+# Config files
+#ADD server.conf /etc/logstash/server.conf
+RUN install -d -m 755 /etc/logstash/
+RUN curl -L -o /etc/logstash/hello.conf http://logstash.net/docs/1.1.0/tutorials/10-minute-walkthrough/hello.conf
+
+# log-courier port
+EXPOSE 4546
+
+CMD /opt/logstash/bin/logstash -f /etc/logstash/hello.conf
