@@ -1,0 +1,30 @@
+# Kibana
+#
+# VERSION               0.0.1
+
+FROM centos:6.6
+MAINTAINER Cedric DELGEHIER <cedric.delgehier@gmail.com>
+
+WORKDIR /opt
+
+# VARS
+ENV KIBANA_VER=4.0.1
+ENV JAVA_HOME="/usr/lib/jvm/jre-1.7.0-openjdk.x86_64"
+
+# Update the image
+RUN yum update -y
+RUN yum install tar -y
+# Deps
+
+
+# Install
+RUN curl -L -O https://download.elastic.co/kibana/kibana/kibana-${KIBANA_VER}-linux-x64.tar.gz
+RUN tar -xzf kibana-${KIBANA_VER}-linux-x64.tar.gz && mv kibana-${KIBANA_VER}-linux-x64 kibana
+
+# Config files
+# Configs
+ADD kibana.yml /opt/kibana/config/kibana.yml
+
+EXPOSE 5601
+
+CMD /opt/kibana/bin/kibana
