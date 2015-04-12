@@ -1,0 +1,11 @@
+http.cors.allow-origin: "/.*/"
+http.cors.enabled: true
+cluster.name: myES 
+node.name: "esdocker1.domain.com"
+path:
+  conf:    /etc/elasticsearch/myES
+  data:    /data/data
+  logs:    /data/log
+  plugins: /data/plugins
+  work:    /data/work
+bootstrap.mlockall: true
